@@ -21,11 +21,11 @@ def modify_telegraf_config():
     )
 
     # Leer las variables de .env
-    influxdb_url = os.environ.get('INFLUXDB_URL') || os.environ.get('URL')
-    influxdb_username = os.environ.get('INFLUXDB_USERNAME') || os.environ.get('USERNAME')
-    influxdb_password = os.environ.get('INFLUXDB_PASSWORD') || os.environ.get('PASSWORD')
-    influxdb_database = os.environ.get('INFLUXDB_DATABASE') || os.environ.get('DB')
-    influxdb_org = os.environ.get('INFLUXDB_ORG') || os.environ.get('ORG')
+    influxdb_url = os.environ.get('URL')
+    influxdb_username = os.environ.get('USERNAME')
+    influxdb_password = os.environ.get('PASSWORD')
+    influxdb_database = os.environ.get('DB')
+    influxdb_org = os.environ.get('ORG')
 
     token_file = "/shared/token"
     with open(token_file, 'r') as file:
