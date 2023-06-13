@@ -1,67 +1,59 @@
 version: '3.8'
 
 services:
-#  mosquitto:
-#    image: eclipse-mosquitto:2.0.15
-#    networks:
-#      - net
-#    ports:
-#      - 1883:1883
-#    volumes:
-#      - ./etc/mosquitto:/etc/mosquitto/
-#      - mosquitto_data:/mosquitto/data
-#      - mosquitto_log:/mosquitto/log
-#    depends_on:
-#      - influxdb
-#
-#  kapacitor:
-#    image: kapacitor:1.6.6
-#    hostname: kapacitor
-#    restart: always
-#    networks:
-#      - net
-#    ports:
-#      - 9092:9092
-#    environment:
-#      - TZ=${TIMEZONE}
-#      - KAPACITOR_HOSTNAME=${KAPACITOR_HOSTNAME}
-#      - KAPACITOR_INFLUXDB_0_URLS_0=${KAPACITOR_INFLUXDB_0_URLS_0}
-#    depends_on:
-#      - influxdb
-#
-#  chronograf:
-#    image: chronograf:1.10.1
-#    hostname: chronograf
-#    restart: always
-#    networks:
-#      - net
-#    ports:
-#      - 8888:8888
-#    volumes:
-#      - chronograf_data:/var/lib/chronograf
-#      - shared_data:/shared
-#    depends_on:
-#      - influxdb
-#      - kapacitor
-#    environment:
-#      - TZ=${TIMEZONE}
-#      - INFLUXDB_URL=${INFLUXDB_URL}
-#      - KAPACITOR_URL=${KAPACITOR_URL}
-#
+  mosquitto:
+    image: eclipse-mosquitto:2.0.15
+    networks:
+      - net
+    ports:
+      - 1883:1883
+    volumes:
+      - ./etc/mosquitto:/etc/mosquitto/
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+    depends_on:
+      - influxdb
+
+  kapacitor:
+    image: kapacitor:1.6.6
+    hostname: kapacitor
+    restart: always
+    build:
+      context: ./etc/kapacitor/
+      dockerfile: Dockerfile
+    networks:
+      - net
+    ports:
+      - 9092:9092
+    depends_on:
+      - influxdb
+
+  chronograf:
+    image: chronograf:1.10.1
+    hostname: chronograf
+    restart: always
+    networks:
+      - net
+    ports:
+      - 8888:8888
+    volumes:
+      - chronograf_data:/var/lib/chronograf
+      - shared_data:/shared
+    depends_on:
+      - influxdb
+      - kapacitor
+    environment:
+      - TZ=${TIMEZONE}
+      - INFLUXDB_URL=${INFLUXDB_URL}
+      - KAPACITOR_URL=${KAPACITOR_URL}
+
   telegraf:
     build:
       context: ./etc/telegraf/
       dockerfile: Dockerfile
-      args:
-        - DATABASE=${INFLUXDB_DATABASE}
-        - USERNAME=${INFLUXDB_USERNAME}
-        - PASSWORD=${INFLUXDB_PASSWORD}
-        - ORG=${INFLUXDB_ORG}
-        - URL=${INFLUXDB_URL}
     hostname: telegraf
     user: telegraf
     restart: always
-    command: telegraf --config /etc/telegraf/telegraf.conf --config-directory /etc/telegraf/telegraf.d
     networks:
       - net
     volumes:
@@ -70,13 +62,24 @@ services:
     ports:
       - 8094:8094
     depends_on:
-      influxdb:
-        condition: service_completed_successfully
+      - influxdb
 
   influxdb:
     image: influxdb:2.7.1
     hostname: influxdb
     restart: always
+    build:
+      context: ./etc/influxdb/
+      dockerfile: Dockerfile
+      args:
+        - TZ=${TIMEZONE}
+        - DATABASE=${INFLUXDB_DATABASE}
+        - USERNAME=${INFLUXDB_USERNAME}
+        - PASSWORD=${INFLUXDB_PASSWORD}
+        - ORG=${INFLUXDB_ORG}
+        - URL=${INFLUXDB_URL}
+        - TOKEN=${INFLUXDB_TOKEN}
+        - HTTP_AUTH_ENABLED=true
     environment:
       - TZ=${TIMEZONE}
       - INFLUXDB_DATABASE=${INFLUXDB_DATABASE}
@@ -93,20 +96,18 @@ services:
     volumes:
       - influxdb_data:/var/lib/influxdb
       - shared_data:/shared
-    entrypoint: sh -c 'if [ ! -f "/shared/.initialized" ]; then influx setup --force --username "${INFLUXDB_USERNAME}" --password "${INFLUXDB_PASSWORD}" --org "${INFLUXDB_ORG}" --bucket "${INFLUXDB_DATABASE}" --token "${INFLUXDB_TOKEN}"; mkdir "/shared/"; touch "/shared/.initialized"; fi'
-
 
 networks:
   net:
     driver: bridge
 
 volumes:
-#  mosquitto_data:
-#    driver: local
-#  mosquitto_log:
-#    driver: local
-#  chronograf_data:
-#    driver: local
+  mosquitto_data:
+    driver: local
+  mosquitto_log:
+    driver: local
+  chronograf_data:
+    driver: local
   influxdb_data:
     driver: local
   shared_data:

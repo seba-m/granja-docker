@@ -3,7 +3,7 @@
 import os
 
 def modify_telegraf_config():
-    telegraf_conf_path = "/etc/telegraf/telegraf.conf"
+    telegraf_conf_path = "./etc/telegraf/telegraf.conf"
 
     with open(telegraf_conf_path, 'r') as file:
         telegraf_conf = file.read()
@@ -20,24 +20,16 @@ def modify_telegraf_config():
         "# # Read metrics from MQTT topic(s)\n" + mosquitto_plugins
     )
 
-    # Leer las variables de .env
-    influxdb_url = os.environ.get('URL')
-    influxdb_username = os.environ.get('USERNAME')
-    influxdb_password = os.environ.get('PASSWORD')
-    influxdb_database = os.environ.get('DB')
-    influxdb_org = os.environ.get('ORG')
-
-    token_file = "/shared/token"
-    with open(token_file, 'r') as file:
-        influxdb_token = file.read().strip()
-
-    print(F"\n\n\n\n\n\nTOOOOOOOOOKEEEEEEEEN ${influxdb_token}\n\n\n\n\n\n\n")
+    influxdb_url = os.environ.get('INFLUXDB_URL')
+    influxdb_database = os.environ.get('INFLUXDB_DATABASE')
+    influxdb_org = os.environ.get('INFLUXDB_ORG')
+    influxdb_token = os.environ.get('INFLUXDB_TOKEN')
 
     influx_plugins = f"""
 [[outputs.influxdb_v2]]
-    urls = [ "{influxdb_ip}" ]
-    organization = "{telegraf_org}"
-    bucket = "{telegraf_db}"
+    urls = [ "{influxdb_url}" ]
+    organization = "{influxdb_org}"
+    bucket = "{influxdb_database}"
     token = "{influxdb_token}"
     """
 
@@ -46,7 +38,6 @@ def modify_telegraf_config():
         "# # Configuration for sending metrics to InfluxDB 2.0\n" + influx_plugins
     )
 
-    # Guardar los cambios en telegraf.conf
     with open(telegraf_conf_path, 'w') as file:
         file.write(telegraf_conf)
 

@@ -21,6 +21,7 @@ ENV INFLUXDB_TOKEN=${TOKEN}
 ENV MARKER_FILE="/shared/.initialized"
 ENV TOKEN_FILE="/shared/token"
 
-COPY influx_setup.sh /docker-entrypoint-initdb.d/influx_setup.sh
+COPY entrypoint.sh /docker-entrypoint-initdb.d/entrypoint.sh
+RUN chmod +x /docker-entrypoint-initdb.d/entrypoint.sh
 
-RUN chmod +x /docker-entrypoint-initdb.d/influx_setup.sh
+ENTRYPOINT ["/docker-entrypoint-initdb.d/entrypoint.sh"]

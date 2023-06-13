@@ -35,6 +35,7 @@ function installDocker() {
 }
 
 function checkTelegrafConfig() {
+    sudo rm -f ./etc/telegraf/telegraf.conf
     if ! [ -f "./etc/telegraf/telegraf.conf" ]; then
         sudo touch ./etc/telegraf/telegraf.conf
         createTelegrafConfig
@@ -44,15 +45,52 @@ function checkTelegrafConfig() {
 function createTelegrafConfig() {
     sudo docker pull telegraf
     sudo docker run --rm telegraf telegraf config > ./etc/telegraf/telegraf.conf
+    export $(cat .env | xargs)
+    sudo python3 ./etc/telegraf/modify_telegraf_config.py
+}
+
+function checkKapacitorConfig() {
+    sudo rm -f ./etc/kapacitor/kapacitor.conf
+    if ! [ -f "./etc/kapacitor/kapacitor.conf" ]; then
+        sudo touch ./etc/kapacitor/kapacitor.conf
+        downloadKapacitorConfig
+    fi
+}
+
+function downloadKapacitorConfig() {
+    sudo docker pull kapacitor
+    sudo docker run --rm kapacitor kapacitord config > ./etc/kapacitor/kapacitor.conf
+    export $(cat .env | xargs)
+    sudo python3 ./etc/kapacitor/modify_kapacitor_config.py
+}
+
+#create a function to check and install python
+
+function checkPython() {
+    if ! [ -x "$(command -v python3)" ]; then
+        installPython
+    fi
+}
+
+function installPython() {
+    sudo apt-get install -y python3 python3-pip
+    sudo pip3 install toml
+
+    sudo apt-get install -y python3-toml
 }
 
 checkRoot
 checkDocker
 checkTelegrafConfig
+checkKapacitorConfig
 
 echo "Instalando docker-compose.yml..."
-sudo docker compose down
-sudo docker compose build --no-cache --progress plain
-sudo docker compose up -d
+
+sudo docker stop $(sudo docker ps -aq)
+sudo docker rm $(sudo docker ps -aq)
+#sudo docker rmi -f $(sudo docker images -aq)
+sudo docker volume rm $(sudo docker volume ls -q)
+
+sudo docker compose up --build --force-recreate -d
 
 echo "La instalación ha finalizado correctamente."
