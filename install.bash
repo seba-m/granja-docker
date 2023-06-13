@@ -1,5 +1,7 @@
 #!/bin/bash
 
+clear
+
 # Verificar si se tienen permisos de root
 if [[ $EUID -ne 0 ]]; then
    echo "Este script debe ser ejecutado como root" 
@@ -33,8 +35,9 @@ function installDocker() {
 }
 
 function checkTelegrafConfig() {
-    if [ ! -f "./etc/telegraf/telegraf.conf" ]; then
+    if ! [ -f "./etc/telegraf/telegraf.conf" ]; then
         sudo touch ./etc/telegraf/telegraf.conf
+        createTelegrafConfig
     fi
 }
 
@@ -46,9 +49,7 @@ function createTelegrafConfig() {
 checkRoot
 checkDocker
 checkTelegrafConfig
-createTelegrafConfig
 
-# Instalar docker-compose.yml
 echo "Instalando docker-compose.yml..."
 sudo docker compose down
 sudo docker compose build --no-cache --progress plain
