@@ -1,6 +1,9 @@
 #!/bin/python
 
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def modify_telegraf_config():
     telegraf_conf_path = "./etc/telegraf/telegraf.conf"

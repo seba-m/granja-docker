@@ -8,6 +8,13 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+if [ -f .env ]; then
+  export $(echo $(cat .env | sed 's/#.*//g'| xargs) | envsubst)
+else
+    echo "No se ha encontrado el archivo .env"
+    exit 1
+fi
+
 function checkRoot() {
     if [ $(id -u) != "0" ]; then
         echo "Error: Debes ser root para ejecutar este script, por favor utiliza root para instalar"
@@ -45,7 +52,6 @@ function checkTelegrafConfig() {
 function createTelegrafConfig() {
     sudo docker pull telegraf
     sudo docker run --rm telegraf telegraf config > ./etc/telegraf/telegraf.conf
-    export $(cat .env | xargs)
     sudo python3 ./etc/telegraf/modify_telegraf_config.py
 }
 
@@ -60,7 +66,6 @@ function checkKapacitorConfig() {
 function downloadKapacitorConfig() {
     sudo docker pull kapacitor
     sudo docker run --rm kapacitor kapacitord config > ./etc/kapacitor/kapacitor.conf
-    export $(cat .env | xargs)
     sudo python3 ./etc/kapacitor/modify_kapacitor_config.py
 }
 
@@ -74,9 +79,9 @@ function checkPython() {
 
 function installPython() {
     sudo apt-get install -y python3 python3-pip
-    sudo pip3 install toml
+    sudo pip3 install toml dotenv
 
-    sudo apt-get install -y python3-toml
+    sudo apt-get install -y python3-toml python3-dotenv
 }
 
 checkRoot

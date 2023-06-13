@@ -1,5 +1,8 @@
 import os
 import toml
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def modify_kapacitor_config():
     kapacitor_conf_path = "./etc/kapacitor/kapacitor.conf"
