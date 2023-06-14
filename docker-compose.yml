@@ -3,16 +3,21 @@ version: '3.8'
 services:
   mosquitto:
     image: eclipse-mosquitto:2.0.15
+    hostname: mosquitto
+    restart: always
+    user: 1883:1883
+    environment:
+      - PUID=1883
+      - PGID=1883
+    build:
+      context: ./etc/mosquitto/
+      dockerfile: Dockerfile
     networks:
       - net
     ports:
       - 1883:1883
     volumes:
-      - ./etc/mosquitto:/etc/mosquitto/
-      - mosquitto_data:/mosquitto/data
-      - mosquitto_log:/mosquitto/log
-    depends_on:
-      - influxdb
+      - mosquitto_data:/mosquitto/:rw
 
   kapacitor:
     image: kapacitor:1.6.6
@@ -102,9 +107,8 @@ networks:
     driver: bridge
 
 volumes:
+  
   mosquitto_data:
-    driver: local
-  mosquitto_log:
     driver: local
   chronograf_data:
     driver: local

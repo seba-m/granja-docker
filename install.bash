@@ -85,15 +85,15 @@ function installPython() {
 }
 
 checkRoot
-checkDocker
-checkTelegrafConfig
-checkKapacitorConfig
+#checkDocker
+#checkTelegrafConfig
+#checkKapacitorConfig
 
 echo "Instalando docker-compose.yml..."
 
 sudo docker stop $(sudo docker ps -aq)
 sudo docker rm $(sudo docker ps -aq)
-#sudo docker rmi -f $(sudo docker images -aq)
+sudo docker rmi -f $(sudo docker images -aq)
 sudo docker volume rm $(sudo docker volume ls -q)
 
 sudo docker compose up --build --force-recreate -d

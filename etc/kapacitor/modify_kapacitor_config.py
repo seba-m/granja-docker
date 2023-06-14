@@ -11,6 +11,7 @@ def modify_kapacitor_config():
     influxdb_url = os.environ.get('INFLUXDB_URL')
     influxdb_username = os.environ.get('INFLUXDB_USERNAME')
     influxdb_password = os.environ.get('INFLUXDB_PASSWORD')
+    influxdb_token = os.environ.get('INFLUXDB_TOKEN')
 
     # Cargar el archivo kapacitor.conf
     with open(kapacitor_conf_path, 'r') as file:
@@ -20,6 +21,7 @@ def modify_kapacitor_config():
     kapacitor_conf['influxdb'][0]['urls'] = [influxdb_url]
     kapacitor_conf['influxdb'][0]['username'] = influxdb_username
     kapacitor_conf['influxdb'][0]['password'] = influxdb_password
+    kapacitor_conf['influxdb'][0]['token'] = influxdb_token
 
     # Guardar los cambios en kapacitor.conf
     with open(kapacitor_conf_path, 'w') as file:

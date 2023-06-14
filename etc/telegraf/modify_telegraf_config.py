@@ -13,9 +13,9 @@ def modify_telegraf_config():
 
     mosquitto_plugins = """
 [[inputs.mqtt_consumer]]
-    servers = ["tcp://localhost:1883"]
-    topics = ["sensors/#"]
-    data_format = "json"
+  servers = ["tcp://localhost:1883"]
+  topics = ["sensors/#"]
+  data_format = "json"
     """
 
     telegraf_conf = telegraf_conf.replace(
@@ -30,10 +30,10 @@ def modify_telegraf_config():
 
     influx_plugins = f"""
 [[outputs.influxdb_v2]]
-    urls = [ "{influxdb_url}" ]
-    organization = "{influxdb_org}"
-    bucket = "{influxdb_database}"
-    token = "{influxdb_token}"
+  urls = [ "{influxdb_url}" ]
+  organization = "{influxdb_org}"
+  bucket = "{influxdb_database}"
+  token = "{influxdb_token}"
     """
 
     telegraf_conf = telegraf_conf.replace(
