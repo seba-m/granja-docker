@@ -15,13 +15,13 @@ ENV INFLUXDB_DATABASE=${DB}
 ARG ORG
 ENV INFLUXDB_ORG=${ORG}
 
-ARG TOKEN
-ENV INFLUXDB_TOKEN=${TOKEN}
-
-ENV MARKER_FILE="/shared/.initialized"
-ENV TOKEN_FILE="/shared/token"
+RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-toml && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /docker-entrypoint-initdb.d/entrypoint.sh
+COPY telegraf.conf /shared/telegraf/telegraf.conf
+COPY telegraf.py /shared/telegraf/telegraf.py
+
+RUN chmod +x /shared/telegraf/telegraf.py
 RUN chmod +x /docker-entrypoint-initdb.d/entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint-initdb.d/entrypoint.sh"]
