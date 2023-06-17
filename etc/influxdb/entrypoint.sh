@@ -10,7 +10,7 @@ if [ ! -f "/shared/.initialized-influx" ]; then
   then
     touch "/shared/.initialized-influx"
     token_response=$(influx auth create --org="granja" --all-access)
-    token=$(echo "$token_response" | awk '{print $2}')
+    token=$(echo "$token_response" | awk '{print $2}' | grep -o "Description")
     echo "$token" > "/shared/token"
   fi
 fi

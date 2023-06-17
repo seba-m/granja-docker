@@ -15,6 +15,15 @@ ENV INFLUXDB_DATABASE=${DB}
 ARG ORG
 ENV INFLUXDB_ORG=${ORG}
 
+ARG MOSQUITTO_URL
+ENV MOSQUITTO_URL=${MOSQUITTO_URL}
+
+ARG MOSQUITTO_TOPICS
+ENV MOSQUITTO_TOPICS=${MOSQUITTO_TOPICS}
+
+ARG MOSQUITTO_FORMAT
+ENV MOSQUITTO_FORMAT=${MOSQUITTO_FORMAT}
+
 RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-toml && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /docker-entrypoint-initdb.d/entrypoint.sh
