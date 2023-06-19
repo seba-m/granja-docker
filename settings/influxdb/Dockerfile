@@ -24,13 +24,14 @@ ENV MOSQUITTO_TOPICS=${MOSQUITTO_TOPICS}
 ARG MOSQUITTO_FORMAT
 ENV MOSQUITTO_FORMAT=${MOSQUITTO_FORMAT}
 
-RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-toml && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y python3 python3-toml python3-yaml
 
 COPY entrypoint.sh /docker-entrypoint-initdb.d/entrypoint.sh
-COPY telegraf.conf /shared/telegraf/telegraf.conf
-COPY telegraf.py /shared/telegraf/telegraf.py
+COPY config/telegraf.conf /shared/telegraf/telegraf.conf
+COPY config/influxdb2.yml /shared/grafana/provisioning/datasources/influxdb2.yml
+COPY config/config.py /shared/config.py
 
-RUN chmod +x /shared/telegraf/telegraf.py
+RUN chmod +x /shared/config.py
 RUN chmod +x /docker-entrypoint-initdb.d/entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint-initdb.d/entrypoint.sh"]

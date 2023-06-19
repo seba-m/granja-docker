@@ -9,15 +9,15 @@ if [ ! -f "/shared/.initialized-influx" ]; then
     influx telegrafs create -n "MQTT" -d "telegraf config with mqtt." -f "/shared/telegraf/telegraf.conf"
   then
     touch "/shared/.initialized-influx"
-    token_response=$(influx auth create --org="granja" --all-access)
-    token=$(echo "$token_response" | awk '{print $2}' | grep -o "Description")
+    token_response=$(influx auth create --org="granja" --description="for telegraf and chronograf" --all-access)
+    token=$(echo "$token_response" | awk '{print $6}' | sed 's/User[\s+]*//g')
     echo "$token" > "/shared/token"
   fi
 fi
 
-if [ ! -f "/shared/.initialized-telegraf" ]; then
-  python3 /shared/telegraf/telegraf.py
-  touch "/shared/.initialized-telegraf"
+if [ ! -f "/shared/.initialized-grafana-telegraf" ]; then
+  python3 /shared/config.py
+  touch "/shared/.initialized-grafana-telegraf"
 fi
 
 wait

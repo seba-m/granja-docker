@@ -9,28 +9,26 @@ services:
     environment:
       - PUID=1883
       - PGID=1883
-    build:
-      context: ./etc/mosquitto/
-      dockerfile: Dockerfile
+    command: /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf -v
     ports:
       - 1883:1883
     volumes:
-      - mosquitto_data:/mosquitto/:rw
+      - ./settings/mosquitto/:/mosquitto/:rw
     networks:
       - net
 
-  chronograf:
-    image: chronograf:1.10.1
-    hostname: chronograf
+  grafana:
+    image: grafana/grafana:8.2.6
+    hostname: grafana
     restart: always
     build:
-      context: ./etc/chronograf/
+      context: ./settings/grafana/
       dockerfile: Dockerfile
     ports:
-      - 8888:8888
+      - 3000:3000
     volumes:
-      - chronograf_data:/var/lib/chronograf
-      - shared_data:/shared
+      - grafana_data:/var/lib/grafana:rw
+      - shared_data:/shared:rw
     depends_on:
       influxdb:
         condition: service_healthy
@@ -66,7 +64,7 @@ services:
     hostname: influxdb
     restart: always
     build:
-      context: ./etc/influxdb/
+      context: ./settings/influxdb/
       dockerfile: Dockerfile
       args:
         - TZ=${TIMEZONE}
@@ -94,11 +92,10 @@ networks:
   net:
     driver: bridge
 
-
 volumes:
   mosquitto_data:
     driver: local
-  chronograf_data:
+  grafana_data:
     driver: local
   influxdb_data:
     driver: local
