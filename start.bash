@@ -34,6 +34,6 @@ checkDocker
 
 echo "Iniciando docker-compose.yml..."
 
-sudo docker-compose up -d
+sudo docker compose up -d
 
 echo "El proyecto se ha iniciado correctamente."

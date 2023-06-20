@@ -27,6 +27,6 @@ checkDocker
 
 echo "Deteniendo docker-compose.yml..."
 
-sudo docker-compose down
+sudo docker-compose stop
 
 echo "El proyecto se ha detenido correctamente."
