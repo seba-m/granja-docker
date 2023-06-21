@@ -18,7 +18,7 @@ services:
       - net
 
   grafana:
-    image: grafana/grafana:8.2.6
+    image: grafana/grafana:9.5.3
     hostname: grafana
     restart: always
     build:
