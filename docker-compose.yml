@@ -18,7 +18,7 @@ services:
       - net
 
   grafana:
-    image: grafana/grafana:9.5.3
+    image: grafana/grafana:9.5.5
     hostname: grafana
     restart: always
     build:
@@ -49,6 +49,7 @@ services:
       - shared_data:/shared/:rw
     ports:
       - 8094:8094
+      - 8080:8080
     depends_on:
       influxdb:
         condition: service_healthy

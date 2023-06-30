@@ -25,6 +25,8 @@ def telegraf():
     config['inputs']['mqtt_consumer'][0]['topics'] = mosquitto_topics
     config['inputs']['mqtt_consumer'][0]['data_format'] = mosquitto_format
 
+    config['outputs']['mqtt'][0]['servers'] = mosquitto_url
+
     with open('/shared/telegraf/telegraf.conf', 'w') as f:
         toml.dump(config, f)
 
