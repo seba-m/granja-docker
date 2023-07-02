@@ -25,7 +25,10 @@ def telegraf():
     config['inputs']['mqtt_consumer'][0]['topics'] = mosquitto_topics
     config['inputs']['mqtt_consumer'][0]['data_format'] = mosquitto_format
 
-    config['outputs']['mqtt'][0]['servers'] = mosquitto_url
+    config['outputs']['mqtt'][0]['servers'] = [s.replace('tcp://','') for s in mosquitto_url]
+    config['outputs']['mqtt'][0]['data_format'] = mosquitto_format
+
+    config['inputs']['http_listener_v2'][0]['data_format'] = mosquitto_format
 
     with open('/shared/telegraf/telegraf.conf', 'w') as f:
         toml.dump(config, f)

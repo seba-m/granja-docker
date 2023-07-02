@@ -12,53 +12,14 @@ services:
     command: /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf -v
     ports:
       - 1883:1883
+    depends_on:
+      influxdb:
+        condition: service_healthy
     volumes:
       - ./settings/mosquitto/:/mosquitto/:rw
     networks:
       - net
-
-  grafana:
-    image: grafana/grafana:9.5.5
-    hostname: grafana
-    restart: always
-    build:
-      context: ./settings/grafana/
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
-    volumes:
-      - grafana_data:/var/lib/grafana:rw
-      - shared_data:/shared:rw
-    depends_on:
-      influxdb:
-        condition: service_healthy
-      mosquitto:
-        condition: service_started
-    networks:
-      - net
-    env_file:
-      - .env
-
-  telegraf:
-    image: telegraf:1.20.2
-    hostname: telegraf
-    user: telegraf
-    restart: always
-    command: telegraf --config="/shared/telegraf/telegraf.conf" --watch-config="inotify"
-    volumes:
-      - shared_data:/shared/:rw
-    ports:
-      - 8094:8094
-      - 8080:8080
-    depends_on:
-      influxdb:
-        condition: service_healthy
-      mosquitto:
-        condition: service_started
-    networks:
-      - net
-    env_file:
-      - .env
+      - internal
 
   influxdb:
     image: influxdb:2.7.1
@@ -76,22 +37,80 @@ services:
         - URL=${INFLUXDB_URL}
         - HTTP_AUTH_ENABLED=true
     healthcheck:
-      test: test -f /shared/token || exit 1
+      test: test -f /shared/.initialized-influx || exit 1
       timeout: 1m
       retries: 10
-    ports:
-      - 8086:8086
+    expose:
+      - 8086
     volumes:
       - influxdb_data:/var/lib/influxdb
       - shared_data:/shared/:rw
     networks:
-      - net
+      - internal
     env_file:
       - .env
+
+  grafana:
+    image: grafana/grafana:9.5.5
+    hostname: grafana
+    restart: always
+    build:
+      context: ./settings/grafana/
+      dockerfile: Dockerfile
+    ports:
+      - 3000
+    volumes:
+      - grafana_data:/var/lib/grafana:rw
+      - shared_data:/shared:rw
+    depends_on:
+      influxdb:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    networks:
+      - internal
+    env_file:
+      - .env
+
+  telegraf:
+    image: telegraf:1.27.1
+    hostname: telegraf
+    user: telegraf
+    restart: always
+    command: telegraf --config="/shared/telegraf/telegraf.conf" --watch-config="inotify"
+    volumes:
+      - shared_data:/shared/:rw
+    expose:
+      - 8094
+      - 8080
+    depends_on:
+      influxdb:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    networks:
+      - internal
+    env_file:
+      - .env
+
+  nginx:
+    image: nginx:1.25.1
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    volumes:
+      - ./settings/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - net
+      - internal
 
 networks:
   net:
     driver: bridge
+  internal:
 
 volumes:
   mosquitto_data:
