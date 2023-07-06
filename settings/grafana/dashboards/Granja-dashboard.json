@@ -77,7 +77,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -92,7 +93,7 @@
             "h": 9,
             "w": 21,
             "x": 0,
-            "y": 31
+            "y": 1
           },
           "id": 27,
           "options": {
@@ -128,7 +129,7 @@
             "h": 2,
             "w": 3,
             "x": 21,
-            "y": 31
+            "y": 1
           },
           "id": 31,
           "options": {
@@ -154,7 +155,7 @@
             "h": 2,
             "w": 3,
             "x": 21,
-            "y": 33
+            "y": 3
           },
           "id": 36,
           "options": {
@@ -230,7 +231,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -383,7 +385,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -471,7 +474,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -565,6 +569,32 @@
             "variant": "destructive"
           },
           "type": "cloudspout-button-panel"
+        },
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 3,
+            "x": 21,
+            "y": 7
+          },
+          "id": 47,
+          "options": {
+            "contentType": "application/json",
+            "icon": "power",
+            "isAuth": false,
+            "method": "POST",
+            "orientation": "center",
+            "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"dht\",\"command\":\"set_pin\",\"pin\":\"26\"}",
+            "text": "Cambiar pin",
+            "type": "header",
+            "url": "http://telegraf.localhost/telegraf",
+            "variant": "secondary"
+          },
+          "type": "cloudspout-button-panel"
         }
       ],
       "title": "DHT",
@@ -625,7 +655,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -640,7 +671,7 @@
             "h": 9,
             "w": 21,
             "x": 0,
-            "y": 12
+            "y": 4
           },
           "id": 10,
           "options": {
@@ -676,7 +707,7 @@
             "h": 2,
             "w": 3,
             "x": 21,
-            "y": 12
+            "y": 4
           },
           "id": 12,
           "options": {
@@ -685,7 +716,7 @@
             "isAuth": false,
             "method": "POST",
             "orientation": "center",
-            "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"temperature\",\"command\":\"enable\"}",
+            "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"water_temperature\",\"command\":\"enable\"}",
             "text": "Activar",
             "type": "header",
             "url": "http://telegraf.localhost/telegraf",
@@ -702,7 +733,7 @@
             "h": 2,
             "w": 3,
             "x": 21,
-            "y": 14
+            "y": 6
           },
           "id": 13,
           "options": {
@@ -724,7 +755,7 @@
       "type": "row"
     },
     {
-      "collapsed": false,
+      "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -732,159 +763,95 @@
         "y": 4
       },
       "id": 38,
-      "panels": [],
-      "title": "Ph",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "PB112F3BB995F0ACE"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 21,
-        "x": 0,
-        "y": 5
-      },
-      "id": 40,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
+      "panels": [
         {
           "datasource": {
             "type": "influxdb",
             "uid": "PB112F3BB995F0ACE"
           },
-          "query": "from(bucket: \"granja\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"mqtt_consumer\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"ph\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
-          "refId": "A"
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 21,
-        "y": 5
-      },
-      "id": 8,
-      "options": {
-        "contentType": "application/json",
-        "icon": "power",
-        "isAuth": false,
-        "method": "POST",
-        "orientation": "center",
-        "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"ph\",\"command\":\"enable\"}",
-        "text": "Activar",
-        "type": "header",
-        "url": "http://telegraf.localhost/telegraf",
-        "variant": "primary"
-      },
-      "type": "cloudspout-button-panel"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 21,
-        "y": 7
-      },
-      "id": 45,
-      "options": {
-        "contentType": "application/json",
-        "icon": "power",
-        "isAuth": false,
-        "method": "POST",
-        "orientation": "center",
-        "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"ph\",\"command\":\"disable\"}",
-        "text": "Desactivar",
-        "type": "header",
-        "url": "http://telegraf.localhost/telegraf",
-        "variant": "destructive"
-      },
-      "type": "cloudspout-button-panel"
-    },
-    {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 14
-      },
-      "id": 39,
-      "panels": [
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 21,
+            "x": 0,
+            "y": 5
+          },
+          "id": 40,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "PB112F3BB995F0ACE"
+              },
+              "query": "from(bucket: \"granja\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"mqtt_consumer\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"ph\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+              "refId": "A"
+            }
+          ],
+          "type": "timeseries"
+        },
         {
           "datasource": {
             "type": "datasource",
@@ -893,17 +860,17 @@
           "gridPos": {
             "h": 2,
             "w": 3,
-            "x": 0,
-            "y": 6
+            "x": 21,
+            "y": 5
           },
-          "id": 43,
+          "id": 8,
           "options": {
             "contentType": "application/json",
             "icon": "power",
             "isAuth": false,
             "method": "POST",
             "orientation": "center",
-            "payload": "{\"owner\":\"true\",\"type\":\"actuator\",\"name\":\"pump\",\"command\":\"enable\"}",
+            "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"ph\",\"command\":\"enable\"}",
             "text": "Activar",
             "type": "header",
             "url": "http://telegraf.localhost/telegraf",
@@ -919,17 +886,17 @@
           "gridPos": {
             "h": 2,
             "w": 3,
-            "x": 3,
-            "y": 6
+            "x": 21,
+            "y": 7
           },
-          "id": 9,
+          "id": 45,
           "options": {
             "contentType": "application/json",
             "icon": "power",
             "isAuth": false,
             "method": "POST",
             "orientation": "center",
-            "payload": "{\"owner\":\"true\",\"type\":\"actuator\",\"name\":\"pump\",\"command\":\"disable\"}",
+            "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"ph\",\"command\":\"disable\"}",
             "text": "Desactivar",
             "type": "header",
             "url": "http://telegraf.localhost/telegraf",
@@ -938,7 +905,7 @@
           "type": "cloudspout-button-panel"
         }
       ],
-      "title": "Bomba de agua",
+      "title": "Ph",
       "type": "row"
     },
     {
@@ -947,7 +914,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 5
       },
       "id": 7,
       "panels": [
@@ -959,24 +926,45 @@
           "fieldConfig": {
             "defaults": {
               "color": {
-                "mode": "thresholds"
+                "mode": "palette-classic"
               },
               "custom": {
-                "fillOpacity": 80,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
                 "gradientMode": "none",
                 "hideFrom": {
                   "legend": false,
                   "tooltip": false,
                   "viz": false
                 },
-                "lineWidth": 1
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -991,16 +979,19 @@
             "h": 9,
             "w": 21,
             "x": 0,
-            "y": 7
+            "y": 6
           },
           "id": 6,
           "options": {
-            "bucketOffset": 0,
             "legend": {
               "calcs": [],
               "displayMode": "list",
               "placement": "bottom",
               "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
             }
           },
           "targets": [
@@ -1013,7 +1004,7 @@
               "refId": "A"
             }
           ],
-          "type": "histogram"
+          "type": "timeseries"
         },
         {
           "datasource": {
@@ -1024,7 +1015,7 @@
             "h": 2,
             "w": 3,
             "x": 21,
-            "y": 7
+            "y": 6
           },
           "id": 42,
           "options": {
@@ -1050,7 +1041,7 @@
             "h": 2,
             "w": 3,
             "x": 21,
-            "y": 9
+            "y": 8
           },
           "id": 44,
           "options": {
@@ -1066,133 +1057,6 @@
             "variant": "destructive"
           },
           "type": "cloudspout-button-panel"
-        }
-      ],
-      "title": "Nivel de agua",
-      "type": "row"
-    },
-    {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 16
-      },
-      "id": 20,
-      "panels": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "PB112F3BB995F0ACE"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 9,
-            "w": 21,
-            "x": 0,
-            "y": 8
-          },
-          "id": 29,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "influxdb",
-                "uid": "PB112F3BB995F0ACE"
-              },
-              "query": "from(bucket: \"granja\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"mqtt_consumer\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"water_level2\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
-              "refId": "A"
-            }
-          ],
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "datasource",
-            "uid": "grafana"
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 3,
-            "x": 21,
-            "y": 8
-          },
-          "id": 33,
-          "options": {
-            "contentType": "application/json",
-            "icon": "power",
-            "isAuth": false,
-            "method": "POST",
-            "orientation": "center",
-            "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"water_level2\",\"command\":\"enable\"}",
-            "text": "Activar",
-            "type": "header",
-            "url": "http://telegraf.localhost/telegraf",
-            "variant": "primary"
-          },
-          "type": "cloudspout-button-panel"
         },
         {
           "datasource": {
@@ -1205,23 +1069,23 @@
             "x": 21,
             "y": 10
           },
-          "id": 17,
+          "id": 46,
           "options": {
             "contentType": "application/json",
             "icon": "power",
             "isAuth": false,
             "method": "POST",
             "orientation": "center",
-            "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"water_level2\",\"command\":\"disable\"}",
-            "text": "Desactivar",
+            "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"water_level\",\"command\":\"set_pin\",\"pin\":\"25\"}",
+            "text": "Cambiar pin",
             "type": "header",
             "url": "http://telegraf.localhost/telegraf",
-            "variant": "destructive"
+            "variant": "secondary"
           },
           "type": "cloudspout-button-panel"
         }
       ],
-      "title": "Nivel de agua 2",
+      "title": "Nivel de agua",
       "type": "row"
     },
     {
@@ -1230,97 +1094,10 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 17
+        "y": 6
       },
-      "id": 19,
+      "id": 39,
       "panels": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "PB112F3BB995F0ACE"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 9,
-            "w": 21,
-            "x": 0,
-            "y": 9
-          },
-          "id": 28,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "influxdb",
-                "uid": "PB112F3BB995F0ACE"
-              },
-              "query": "from(bucket: \"granja\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"mqtt_consumer\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"water_level3\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
-              "refId": "A"
-            }
-          ],
-          "type": "timeseries"
-        },
         {
           "datasource": {
             "type": "datasource",
@@ -1329,17 +1106,17 @@
           "gridPos": {
             "h": 2,
             "w": 3,
-            "x": 21,
-            "y": 9
+            "x": 0,
+            "y": 6
           },
-          "id": 32,
+          "id": 43,
           "options": {
             "contentType": "application/json",
             "icon": "power",
             "isAuth": false,
             "method": "POST",
             "orientation": "center",
-            "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"water_level3\",\"command\":\"enable\"}",
+            "payload": "{\"owner\":\"true\",\"name\":\"pump\",\"command\":\"set_speed\",\"percentage\":100}",
             "text": "Activar",
             "type": "header",
             "url": "http://telegraf.localhost/telegraf",
@@ -1355,17 +1132,17 @@
           "gridPos": {
             "h": 2,
             "w": 3,
-            "x": 21,
-            "y": 11
+            "x": 3,
+            "y": 6
           },
-          "id": 37,
+          "id": 9,
           "options": {
             "contentType": "application/json",
             "icon": "power",
             "isAuth": false,
             "method": "POST",
             "orientation": "center",
-            "payload": "{\"owner\":\"true\",\"type\":\"sensor\",\"name\":\"water_level3\",\"command\":\"disable\"}",
+            "payload": "{\"owner\":\"true\",\"name\":\"pump\",\"command\":\"set_speed\",\"percentage\":0}",
             "text": "Desactivar",
             "type": "header",
             "url": "http://telegraf.localhost/telegraf",
@@ -1374,7 +1151,7 @@
           "type": "cloudspout-button-panel"
         }
       ],
-      "title": "Nivel de agua 3",
+      "title": "Bomba de agua",
       "type": "row"
     }
   ],
@@ -1393,6 +1170,6 @@
   "timezone": "",
   "title": "Granja",
   "uid": "d80eb1a5-7a00-464d-b62d-327cc754d96f",
-  "version": 9,
+  "version": 2,
   "weekStart": ""
 }
