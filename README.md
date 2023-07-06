@@ -2,15 +2,40 @@
 
 ## Description
 
-This project called Granja-Docker is an application that automates a hydroponic farm using Docker container technologies. The hydroponic farm is a system in which water constantly flows, providing the necessary nutrients for plant growth.
+This project, called Granja-Docker, is an application that automates a hydroponic farm using Docker container technologies. The hydroponic farm is a system in which water constantly flows, providing the necessary nutrients for plant growth.
 
 The main objective of this project is to monitor and control various aspects of the hydroponic farm, such as temperature, water turbidity, water level, and data related to plant production. To achieve this, Docker images and services are used, running on a local server such as a Raspberry Pi 4 with Ubuntu.
+
+## Configuration
+This project assumes that you have an Esp32 with the [following code](https://github.com/seba-m/granja-esp32) already configured, with this server running in the same network.
+
+ps: you can get the current server IP with the following command:
+
+```bash
+hostname -I | awk '{print $1}'
+```
+
+If you want to change the default configuration of the application, you can do so by modifying the `.env` file. If this file doesn't exist, copy `.env.example` to `.env` and edit it. This file contains the following variables:
+
+- `TIMEZONE` - Timezone of the server. Default: `America/Santiago`
+
+### InfluxDB
+- `INFLUXDB_USERNAME` - Username for the InfluxDB database. Default: `admin`
+- `INFLUXDB_PASSWORD` - Password for the InfluxDB database. Default: `admin12345678`
+- `INFLUXDB_DATABASE` - Name of the InfluxDB database. Default: `granja`
+- `INFLUXDB_ORG` - Name of the InfluxDB organization. Default: `granja`
+
+### Mosquitto
+- `MOSQUITTO_TOPICS` - MQTT topics to subscribe to. Default: `sensors/#, actuators/#, alarms/#, events/#, commands/#, notifications/#, logs/#, services/#, devices/#`
+- `MOSQUITTO_FORMAT` - MQTT message format. Default: `json`
+
+### Grafana
+- `GRAFANA_USERNAME` - Username for the Grafana interface. Default: `admin`
+- `GRAFANA_PASSWORD` - Password for the Grafana interface. Default: `admin`
 
 ## Installation
 
 To install the Granja-Docker application on a local server, follow these steps:
-
-Download the application source code by running the following command in Linux:
 
 1. Download the application source code by running the following command in Linux:
 
@@ -79,26 +104,18 @@ http://localhost/influx
 
 The default username and password are `admin` and `admin12345678`, respectively. Once you have logged in, you can create a new password for your account.
 
-## Configuration
-This project asumes that you have a Esp32 with the [following code](https://github.com/seba-m/granja-esp32) already configured, with this server running in the same network.
-
-ps: you can get the current server ip with the following command:
-```bash
-hostname -I | awk '{print $1}'
-```
-
 ## Architecture and Services
 The Granja-Docker application consists of the following services:
 
-- Mosquitto: It is an MQTT (Message Queuing Telemetry Transport) broker responsible for receiving data from the sensors of the hydroponic farm system and transmitting it to other services.
-- InfluxDB: It is a time-series database that stores the data received from the sensors. It allows querying and analyzing historical data.
-- Grafana: It is a data visualization tool that allows you to create dashboards to display the data stored in the InfluxDB database.
-- Telegraf: It is a data collector that allows you to collect data from the sensors and send it to the InfluxDB database.
-- Nginx: It is a web server that allows you to access the Grafana and InfluxDB interfaces through a web browser.
+- **Mosquitto**: It is an MQTT (Message Queuing Telemetry Transport) broker responsible for receiving data from the sensors of the hydroponic farm system and transmitting it to other services.
+- **InfluxDB**: It is a time-series database that stores the data received from the sensors. It allows querying and analyzing historical data.
+- **Grafana**: It is a data visualization tool that allows you to create dashboards to display the data stored in the InfluxDB database.
+- **Telegraf**: It is a data collector that allows you to collect data from the sensors and send it to the InfluxDB database.
+- **Nginx**: It is a web server that allows you to access the Grafana and InfluxDB interfaces through a web browser.
 
 This application has one mode of operation:
 
-- Local Server: Uses a Raspberry Pi 4 or any other compatible device (armv7+ or amd64) as a local server. Sensor data is sent to the Mosquitto MQTT broker, which transmits it to InfluxDB. The data is stored in InfluxDB and can be visualized using Grafana, which provides an interface to observe and set basic rules for the stored data.
+**Local Server**: Uses a Raspberry Pi 4 or any other compatible device (armv7+ or amd64) as a local server. Sensor data is sent to the Mosquitto MQTT broker, which transmits it to InfluxDB. The data is stored in InfluxDB and can be visualized using Grafana, which provides an interface to observe and set basic rules for the stored data.
 
 Communication between services is done through Docker networks. Using the MQTT protocol, which allows efficient transmission of sensor data. The following diagram shows the architecture of the application:
 

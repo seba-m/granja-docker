@@ -57,6 +57,9 @@ services:
     build:
       context: ./settings/grafana/
       dockerfile: Dockerfile
+      args:
+        - USERNAME=${GRAFANA_USERNAME}
+        - PASSWORD=${GRAFANA_PASSWORD}
     ports:
       - 3000
     volumes:
