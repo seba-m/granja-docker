@@ -15,7 +15,7 @@ Download the application source code by running the following command in Linux:
 1. Download the application source code by running the following command in Linux:
 
 ```bash
-wget https://github.com/testesttest/granja-docker
+wget https://github.com/seba-m/granja-docker
 tar -xf granja-docker.tar.gz
 cd granja-docker
 ```
@@ -81,6 +81,11 @@ The default username and password are `admin` and `admin12345678`, respectively.
 
 ## Configuration
 This project asumes that you have a Esp32 with the [following code](https://github.com/seba-m/granja-esp32) already configured, with this server running in the same network.
+
+ps: you can get the current server ip with the following command:
+```bash
+hostname -I | awk '{print $1}'
+```
 
 ## Architecture and Services
 The Granja-Docker application consists of the following services:
