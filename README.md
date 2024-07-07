@@ -119,7 +119,7 @@ This application has one mode of operation:
 
 Communication between services is done through Docker networks. Using the MQTT protocol, which allows efficient transmission of sensor data. The following diagram shows the architecture of the application:
 
-![Architecture]()
+![Architecture](img/diagrama.jpg)
 
 It is important to note that the Granja-Docker application focuses on controlling and monitoring the aspects that occur within the hydroponic farm box. Sensors located inside the box capture the data and sendit to the system for analysis and control. Rules based on this data can be established to execute actions such as notifications, adjustments, among others. The application does not cover aspects outside the box unless additional sensors are used.
 
