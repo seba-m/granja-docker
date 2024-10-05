@@ -15,9 +15,9 @@ if [ ! -f "/shared/.initialized-influx" ]; then
   fi
 fi
 
-if [ ! -f "/shared/.initialized-grafana-telegraf" ]; then
+if [ ! -f "/shared/.initialized-telegraf" ]; then
   python3 /shared/config.py
-  touch "/shared/.initialized-grafana-telegraf"
+  touch "/shared/.initialized-telegraf"
 fi
 
 wait

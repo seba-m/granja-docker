@@ -50,31 +50,6 @@ services:
     env_file:
       - .env
 
-  grafana:
-    image: grafana/grafana:9.5.5
-    hostname: grafana
-    restart: always
-    build:
-      context: ./settings/grafana/
-      dockerfile: Dockerfile
-      args:
-        - USERNAME=${GRAFANA_USERNAME}
-        - PASSWORD=${GRAFANA_PASSWORD}
-    ports:
-      - 3000
-    volumes:
-      - grafana_data:/var/lib/grafana:rw
-      - shared_data:/shared:rw
-    depends_on:
-      influxdb:
-        condition: service_healthy
-      mosquitto:
-        condition: service_started
-    networks:
-      - internal
-    env_file:
-      - .env
-
   telegraf:
     image: telegraf:1.27.1
     hostname: telegraf
@@ -117,8 +92,6 @@ networks:
 
 volumes:
   mosquitto_data:
-    driver: local
-  grafana_data:
     driver: local
   influxdb_data:
     driver: local
